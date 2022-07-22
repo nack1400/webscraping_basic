@@ -9,4 +9,15 @@ res.raise_for_status()
 soup = BeautifulSoup(res.text, "lxml")
 
 items = soup.find_all("li", attrs={"class": re.compile("^search-product")})
-print(items[0].find("div", attrs={"class":"name"}).get_text())
+# print(items[0].find("div", attrs={"class":"name"}).get_text())
+for item in items:
+  name = item.find("div", attrs={"class":"name"}).get_text()
+  price = item.find("strong", attrs={"class":"price-value"}).get_text()
+  rate = item.find("em", attrs={"class":"rating"}).get_text()
+  if rate:
+    rate = rate.get_text()
+  else:
+    rate = "평점 없음"
+  rate_cnt = item.find("span", attrs={"class":"rating"}).get_text()
+
+  print(name, price, rate, rate_cnt)
